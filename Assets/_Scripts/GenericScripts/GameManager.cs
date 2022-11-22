@@ -36,6 +36,9 @@ public class GameManager : MonoBehaviour
     private int totalLevelCount;
     public GameObject loaderPanel;
 
+    public int DestroyedWallCount;
+    public int TotalWallForLevel;
+
     void Awake()
     {
         CreateInstance();

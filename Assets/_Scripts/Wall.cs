@@ -26,6 +26,11 @@ public class Wall : MonoBehaviour
         {
             gameObject.SetActive(false);
             Instantiate(blueConfetti, transform.position, quaternion.identity);
+            GameManager.instance.DestroyedWallCount++;
+            if (GameManager.instance.DestroyedWallCount == GameManager.instance.TotalWallForLevel)
+            {
+                GameManager.instance.LevelComplete();
+            }
         }
     }
 }
