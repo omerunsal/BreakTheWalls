@@ -12,18 +12,35 @@ public class DragAndShoot : MonoBehaviour
 
     private bool isShoot;
     private float forceMultiplier;
-    
+
+    public LineRenderer line;
+
+    private Ray ray;
+    private RaycastHit hit;
+    private Camera cam;
+
     // Start is called before the first frame update
     void Start()
     {
+        line.enabled = false;
+        cam = Camera.main;
         rb = GetComponent<Rigidbody>();
-
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        ray = cam.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out hit, 100))
+        {
+            line.enabled = isShoot == false ? true : false;
+            line.SetPosition(0, transform.position);
+            line.SetPosition(1, -hit.point);
+        }
+        else
+        {
+            line.enabled = false;
+        }
     }
 
     private void OnMouseDown()
@@ -33,10 +50,11 @@ public class DragAndShoot : MonoBehaviour
 
     private void OnMouseUp()
     {
+        line.enabled = false;
         mouseReleasePos = Input.mousePosition;
-        Shoot(mousePressDownPos-mouseReleasePos);
+        Shoot(mousePressDownPos - mouseReleasePos);
     }
-    
+
 
     private void Shoot(Vector3 Force)
     {
@@ -45,7 +63,8 @@ public class DragAndShoot : MonoBehaviour
         {
             return;
         }
-        rb.AddForce(new Vector3(Force.x,Force.y,Force.y) * forceMultiplier, ForceMode.Impulse);
+
+        rb.AddForce(new Vector3(Force.x, Force.y, Force.y) * forceMultiplier, ForceMode.Impulse);
         isShoot = true;
     }
 }
