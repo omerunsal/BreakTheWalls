@@ -19,10 +19,16 @@ public class DragAndShoot : MonoBehaviour
     private RaycastHit hit;
     private Camera cam;
 
+    private Vector3 ballInitialPos;
+
+    public Transform ballCenter;
+
     // Start is called before the first frame update
     void Start()
     {
-        line.enabled = false;
+        Debug.Log(transform.position);
+        isShoot = false;
+        
         cam = Camera.main;
         rb = GetComponent<Rigidbody>();
     }
@@ -30,16 +36,21 @@ public class DragAndShoot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        ray = cam.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out hit, 100))
+        if (GameManager.instance.isLevelStarted)
         {
-            line.enabled = isShoot == false ? true : false;
-            line.SetPosition(0, transform.position);
-            line.SetPosition(1, -hit.point);
-        }
-        else
-        {
-            line.enabled = false;
+             ray = cam.ScreenPointToRay(Input.mousePosition);
+            
+            if (Physics.Raycast(ray, out hit, 100))
+            {
+                line.enabled = isShoot == false ? true : false;
+
+                line.SetPosition(0, Vector3.zero);
+                line.SetPosition(1, -hit.point);
+            }
+            else
+            {
+                line.enabled = false;
+            }
         }
     }
 
