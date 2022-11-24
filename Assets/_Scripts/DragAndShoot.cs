@@ -69,7 +69,7 @@ public class DragAndShoot : MonoBehaviour
 
     private void Shoot(Vector3 Force)
     {
-        forceMultiplier = 0.25f;
+        forceMultiplier = 0.125f;
         if (isShoot)
         {
             return;
